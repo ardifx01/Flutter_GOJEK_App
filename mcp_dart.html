@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <title>Dart and Flutter MCP server</title>
+    <meta property="og:title" content="Dart and Flutter MCP server"/>
+    <meta name="description" content="Learn about the Dart and Flutter MCP server tool that exposes Dart and Flutter tools to compatible AI-assistant clients and agents."/>
+    <meta property="og:description" content="Learn about the Dart and Flutter MCP server tool that exposes Dart and Flutter tools to compatible AI-assistant clients and agents."/>
+    <link sizes="64x64" href="/assets/img/logo/dart-64.png" rel="icon"/>
+    <link href="/assets/img/touch-icon-iphone.png" rel="apple-touch-icon"/>
+    <link sizes="152x152" href="/assets/img/touch-icon-ipad.png" rel="apple-touch-icon"/>
+    <link sizes="180x180" href="/assets/img/touch-icon-iphone-retina.png" rel="apple-touch-icon"/>
+    <link sizes="167x167" href="/assets/img/touch-icon-ipad-retina.png" rel="apple-touch-icon"/>
+    <meta name="twitter:card" content="summary"/>
+    <meta name="twitter:site" content="@dart_lang"/>
+    <meta name="twitter:title" content="Dart and Flutter MCP server"/>
+    <meta name="twitter:description" content="Learn about the Dart and Flutter MCP server tool that exposes Dart and Flutter tools to compatible AI-assistant clients and agents."/>
+    <meta property="og:title" content="Dart and Flutter MCP server"/>
+    <meta property="og:description" content="Learn about the Dart and Flutter MCP server tool that exposes Dart and Flutter tools to compatible AI-assistant clients and agents."/>
+    <meta property="og:url" content="tools/mcp-server.md"/>
+    <meta property="og:image" content="/assets/img/logo/dart-logo-for-shares.png"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect"/>
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Mono:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0" rel="stylesheet"/>
+    <link href="/assets/css/main.css" rel="stylesheet"/>
+    <script src="/assets/js/tabs.js"></script>
+    <script src="/assets/js/main.js"></script>
+    <script type="module" integrity="sha256-Jy0j0fUMJ2T3WxSEs2WjHLrS+3DlO7S9DItQtP55FII=" crossorigin="anonymous" referrerpolicy="no-referrer" src="https://cdn.jsdelivr.net/npm/@justinribeiro/lite-youtube@1.8.2/lite-youtube.js"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+    </script>
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5VSZM5J');</script>
+    
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    
+    ga('create', 'UA-26406144-4', 'auto');
+    ga('send', 'pageview');
+    </script>
+    
+    <!--$-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!--/-->
+  </head>
+  <body>
+    
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5VSZM5J" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    
+    <a id="skip-to-main" class="filled-button" tabindex="1" href="#site-content-title">Skip to main content</a>
+    <section id="cookie-notice" data-nosnippet="true">
+      <div class="container">
+        <p>
+          dart.dev uses cookies from Google to deliver and enhance the quality of its services and to analyze traffic.
+        </p>
+        <div class="button-group">
+          <a class="text-button" rel="noopener" href="https://policies.google.com/technologies/cookies" target="_blank">Learn more</a>
+          <button id="cookie-consent" class="filled-button">OK, got it</button>
+        </div>
+      </div>
+    </section>
+    <header id="site-header" class="always-dark-mode">
+      <nav class="navbar">
+        <a id="site-primary-logo" class="site-wordmark" aria-label="Go to the Dart homepage" title="Go to the Dart homepage" href="/">
+          <img width="192" alt="Dart logo" src="/assets/img/logo/dart-192.svg"/>
+          <span class="name" translate="no">Dart</span>
+        </a>
+        <ul class="nav-items">
+          <li><a class="nav-link" href="/overview">Overview</a></li>
+          <li><a class="nav-link active" href="/docs"><span>Docs</span></a></li>
+          <li><a class="nav-link" href="/community">Community</a></li>
+          <li><a class="nav-link" href="/#try-dart">Try Dart</a></li>
+          <li><a class="nav-link" href="/get-dart">Get Dart</a></li>
+        </ul>
+        <div class="navbar-contents">
+          <form id="header-search" action="/search/">
+            <input id="q" class="search-field" autocomplete="off" placeholder="Search" aria-label="Search" type="search" name="q"/>
+          </form>
+          <a id="fallback-search-button" class="icon-button" aria-label="Navigate to the dart.dev search page." title="Navigate to the dart.dev search page." href="/search"><span class="material-symbols" translate="no">search</span></a>
+          <div id="theme-switcher" class="dropdown">
+            <button class="dropdown-button icon-button" title="Select a theme" aria-label="Select a theme" aria-expanded="false" aria-controls="theme-menu"><span class="material-symbols" translate="no">routine</span></button>
+            <div id="theme-menu" class="dropdown-content">
+              <div class="dropdown-menu">
+                <ul role="listbox">
+                  <li>
+                    <button data-theme="light" title="Switch to light mode" aria-label="Switch to light mode" aria-selected="false"><span class="material-symbols" translate="no">light_mode</span><span>Light</span></button>
+                  </li>
+                  <li>
+                    <button data-theme="dark" title="Switch to dark mode" aria-label="Switch to dark mode" aria-selected="false"><span class="material-symbols" translate="no">dark_mode</span><span>Dark</span></button>
+                  </li>
+                  <li>
+                    <button data-theme="auto" title="Follow the device theme" aria-label="Follow the device theme" aria-selected="false"><span class="material-symbols" translate="no">night_sight_auto</span><span>Automatic</span></button>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div id="site-switcher" class="dropdown">
+            <button class="dropdown-button icon-button" title="Select a theme" aria-label="Select a theme" aria-expanded="false" aria-controls="site-switcher-menu"><span class="material-symbols" translate="no">apps</span></button>
+            <div id="site-switcher-menu" class="dropdown-content">
+              <nav class="dropdown-menu" role="menu">
+                <ul>
+                  <li role="presentation">
+                    <a class="site-wordmark current-site" role="menuitem" title="Navigate to the Dart website." aria-label="Navigate to the Dart website." href="/">
+                      <img alt="Dart logo" width="28" height="28" src="/assets/img/logo/dart-192.svg"/>
+                      <span class="name" translate="no">Dart</span>
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a class="site-wordmark" role="menuitem" title="Navigate to the Dart API website." aria-label="Navigate to the Dart API website." href="https://api.dart.dev">
+                      <img alt="Dart logo" width="28" height="28" src="/assets/img/logo/dart-192.svg"/>
+                      <span class="name" translate="no">Dart</span>
+                      <span class="subtype">API</span>
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a class="site-wordmark" role="menuitem" title="Navigate to the DartPad website." aria-label="Navigate to the DartPad website." href="https://dartpad.dev">
+                      <img alt="Dart logo" width="28" height="28" src="/assets/img/logo/dart-192.svg"/>
+                      <span class="name" translate="no">DartPad</span>
+                    </a>
+                  </li>
+                  <li role="presentation">
+                    <a class="site-wordmark" role="menuitem" title="Navigate to the pub.dev website." aria-label="Navigate to the pub.dev website." href="https://pub.dev">
+                      <img alt="Dart logo" width="28" height="28" src="/assets/img/logo/dart-192.svg"/>
+                      <span class="name" translate="no">pub.dev</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <button id="menu-toggle" class="icon-button" aria-controls="sidenav" aria-label="Open navigation menu." title="Open navigation menu." type="button">
+            <span class="material-symbols" translate="no">menu</span>
+            <span class="material-symbols" translate="no">close</span>
+          </button>
+        </div>
+      </nav>
+    </header>
+    <div id="site-below-header">
+      <div id="site-main-row">
+        <div id="sidenav">
+          <form class="site-header-search form-inline" action="/search/">
+            <input id="search-side" class="site-header-searchfield search-field" autocomplete="off" placeholder="Search" aria-label="Search" type="search" name="q"/>
+          </form>
+          <ul class="navbar-nav">
+            <li aria-hidden="true"><div class="sidenav-divider"></div></li>
+            <li class="nav-item"><a class="nav-link" href="/overview">Overview</a></li>
+            <li class="nav-item"><a class="nav-link" href="/community">Community</a></li>
+            <li class="nav-item"><a class="nav-link" href="https://dartpad.dev">Try Dart</a></li>
+            <li class="nav-item"><a class="nav-link" href="/get-dart">Get Dart</a></li>
+            <li class="nav-item"><a class="nav-link" href="/docs">Docs</a></li>
+            <li aria-hidden="true"><div class="sidenav-divider"></div></li>
+          </ul>
+          <ul class="nav">
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1" role="button" aria-expanded="false" aria-controls="docs-1"><span>Language</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+              <ul id="docs-1" class="nav collapse">
+                <li class="nav-item"><a class="nav-link" href="/language"><div><span>Introduction</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/language/variables"><div><span>Variables</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/language/operators"><div><span>Operators</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/language/comments"><div><span>Comments</span></div></a></li>
+                <div class="sidenav-divider"></div>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-6" role="button" aria-expanded="false" aria-controls="docs-1-6"><span>Types</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+                  <ul id="docs-1-6" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/language/built-in-types"><div><span>Built-in types</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/records"><div><span>Records</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/collections"><div><span>Collections</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/generics"><div><span>Generics</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/typedefs"><div><span>Typedefs</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/type-system"><div><span>Type system</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-7" role="button" aria-expanded="false" aria-controls="docs-1-7"><span>Patterns</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+                  <ul id="docs-1-7" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/language/patterns"><div><span>Overview &amp; usage</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/pattern-types"><div><span>Pattern types</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" rel="noopener" href="https://codelabs.developers.google.com/codelabs/dart-patterns-records" target="_blank">
+                        <div><span>Applied tutorial</span><span class="material-symbols" aria-hidden="true">open_in_new</span></div>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-8" role="button" aria-expanded="false" aria-controls="docs-1-8">
+                    <span>Control flow</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-1-8" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/language/loops"><div><span>Loops</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/branches"><div><span>Branches</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/error-handling"><div><span>Error handling</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/language/functions"><div><span>Functions</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/language/metadata"><div><span>Metadata</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/language/libraries"><div><span>Libraries &amp; imports</span></div></a></li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-12" role="button" aria-expanded="false" aria-controls="docs-1-12">
+                    <span>Classes &amp; objects</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-1-12" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/language/classes"><div><span>Classes</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/constructors"><div><span>Constructors</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/methods"><div><span>Methods</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/extend"><div><span>Extend a class</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/mixins"><div><span>Mixins</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/enums"><div><span>Enums</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/language/extension-methods"><div><span>Extension methods</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/language/extension-types"><div><span>Extension types</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/callable-objects"><div><span>Callable objects</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-13" role="button" aria-expanded="false" aria-controls="docs-1-13">
+                    <span>Class modifiers</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-1-13" class="nav collapse">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/language/class-modifiers"><div><span>Overview &amp; usage</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/language/class-modifiers-for-apis"><div><span>Class modifiers for API maintainers</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/language/modifier-reference"><div><span>Reference</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-14" role="button" aria-expanded="false" aria-controls="docs-1-14">
+                    <span>Concurrency</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-1-14" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/language/concurrency"><div><span>Overview</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/async"><div><span>Asynchronous programming</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/language/isolates"><div><span>Isolates</span></div></a></li>
+                  </ul>
+                </li>
+                <div class="sidenav-divider"></div>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-1-16" role="button" aria-expanded="false" aria-controls="docs-1-16">
+                    <span>Null safety</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-1-16" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/null-safety"><div><span>Sound null safety</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/null-safety/migration-guide"><div><span>Migrating to null safety</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/null-safety/understanding-null-safety"><div><span>Understanding null safety</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/null-safety/unsound-null-safety"><div><span>Unsound null safety</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/null-safety/faq"><div><span>FAQ</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/language/keywords"><div><span>Keywords</span></div></a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-2" role="button" aria-expanded="false" aria-controls="docs-2">
+                <span>Core libraries</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-2" class="nav collapse">
+                <li class="nav-item"><a class="nav-link" href="/libraries"><div><span>Overview</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/libraries/dart-core"><div><span>dart:core</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/libraries/dart-async"><div><span>dart:async</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/libraries/dart-math"><div><span>dart:math</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/libraries/dart-convert"><div><span>dart:convert</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/libraries/dart-io"><div><span>dart:io</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/interop/js-interop"><div><span>dart:js_interop</span></div></a></li>
+                <div class="sidenav-divider"></div>
+                <li class="nav-item">
+                  <a class="nav-link" href="/libraries/collections/iterables"><div><span>Iterable collections</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-2-10" role="button" aria-expanded="false" aria-controls="docs-2-10">
+                    <span>Asynchronous programming</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-2-10" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/libraries/async/async-await"><div><span>Tutorial</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/libraries/async/futures-error-handling"><div><span>Futures and error handling</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/libraries/async/using-streams"><div><span>Using streams</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/libraries/async/creating-streams"><div><span>Creating streams</span></div></a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-3" role="button" aria-expanded="false" aria-controls="docs-3">
+                <span>Effective Dart</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-3" class="nav collapse">
+                <li class="nav-item"><a class="nav-link" href="/effective-dart"><div><span>Overview</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/effective-dart/style"><div><span>Style</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/effective-dart/documentation"><div><span>Documentation</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/effective-dart/usage"><div><span>Usage</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/effective-dart/design"><div><span>Design</span></div></a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-4" role="button" aria-expanded="false" aria-controls="docs-4"><span>Packages</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+              <ul id="docs-4" class="nav collapse">
+                <li class="nav-item"><a class="nav-link" href="/tools/pub/packages"><div><span>How to use packages</span></div></a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/useful-packages"><div><span>Commonly used packages</span></div></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/tools/pub/create-packages"><div><span>Creating packages</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/tools/pub/publishing"><div><span>Publishing packages</span></div></a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/tools/pub/writing-package-pages"><div><span>Writing package pages</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/tools/pub/workspaces"><div><span>Workspaces (monorepo support)</span></div></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/tools/hooks"><div><span>Hooks</span></div></a></li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-4-8" role="button" aria-expanded="false" aria-controls="docs-4-8">
+                    <span>Package reference</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-4-8" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/tools/pub/dependencies"><div><span>Dependencies</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/pub/package-layout"><div><span>Package layout conventions</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/pub/environment-variables"><div><span>Pub environment variables</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/pub/pubspec"><div><span>Pubspec file</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/pub/troubleshoot"><div><span>Troubleshooting pub</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/pub/verified-publishers"><div><span>Verified publishers</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/pub/security-advisories"><div><span>Security advisories</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/pub/versioning"><div><span>Versioning</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/pub/custom-package-repositories"><div><span>Custom package repositories</span></div></a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/tools/pub/private-files"><div><span>What not to commit</span></div></a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-5" role="button" aria-expanded="false" aria-controls="docs-5">
+                <span>Development</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-5" class="nav collapse">
+                <li class="nav-item">
+                  <a class="nav-link" href="/libraries/serialization/json"><div><span>JSON serialization</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/language/number-representation"><div><span>Number representation</span></div></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/resources/google-apis"><div><span>Google APIs</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/multiplatform-apps"><div><span>Multi-platform apps</span></div></a></li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-5-5" role="button" aria-expanded="false" aria-controls="docs-5-5">
+                    <span>Command-line &amp; server apps</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-5-5" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/server"><div><span>Overview</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tutorials/server/get-started"><div><span>Get started</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tutorials/server/cmdline"><div><span>Write command-line apps</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tutorials/server/fetch-data"><div><span>Fetch data from the internet</span></div></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tutorials/server/httpserver"><div><span>Write HTTP servers</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/server/libraries"><div><span>Libraries &amp; packages</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/server/google-cloud"><div><span>Google Cloud</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-5-6" role="button" aria-expanded="false" aria-controls="docs-5-6"><span>Web apps</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+                  <ul id="docs-5-6" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/web"><div><span>Overview</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/web/get-started"><div><span>Get started</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/web/deployment"><div><span>Deployment</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/web/libraries"><div><span>Libraries &amp; packages</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/web/wasm"><div><span>Wasm compilation</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/libraries/core/environment-declarations"><div><span>Environment declarations</span></div></a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-6" role="button" aria-expanded="false" aria-controls="docs-6">
+                <span>Interoperability</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-6" class="nav collapse">
+                <li class="nav-item"><a class="nav-link" href="/interop/c-interop"><div><span>C interop</span></div></a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/interop/objective-c-interop"><div><span>Objective-C &amp; Swift interop</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/interop/java-interop"><div><span>Java &amp; Kotlin interop</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-6-4" role="button" aria-expanded="false" aria-controls="docs-6-4">
+                    <span>JavaScript interop</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-6-4" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/interop/js-interop"><div><span>Overview</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/interop/js-interop/usage"><div><span>Usage</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/interop/js-interop/js-types"><div><span>JS types</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/interop/js-interop/tutorials"><div><span>Tutorials</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/interop/js-interop/past-js-interop"><div><span>Past JS interop</span></div></a>
+                    </li>
+                    <div class="sidenav-divider"></div>
+                    <li class="nav-item"><a class="nav-link" href="/interop/js-interop/package-web"><div><span>Web interop</span></div></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link active collapsible" data-toggle="collapse" data-target="#docs-7" role="button" aria-expanded="true" aria-controls="docs-7">
+                <span>Tools &amp; techniques</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-7" class="nav collapse show">
+                <li class="nav-item"><a class="nav-link" href="/tools"><div><span>Overview</span></div></a></li>
+                <li class="nav-item">
+                  <button class="nav-link active collapsible" data-toggle="collapse" data-target="#docs-7-2" role="button" aria-expanded="true" aria-controls="docs-7-2"><span>AI</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+                  <ul id="docs-7-2" class="nav collapse show">
+                    <li class="nav-item">
+                      <a class="nav-link active" href="/tools/mcp-server"><div><span>Dart and Flutter MCP Server</span></div></a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-7-3" role="button" aria-expanded="false" aria-controls="docs-7-3">
+                    <span>Editors &amp; debuggers</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-7-3" class="nav collapse">
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/jetbrains-plugin"><div><span>IntelliJ &amp; Android Studio</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/vs-code"><div><span>VS Code</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/dart-devtools"><div><span>Dart DevTools</span></div></a></li>
+                    <li class="nav-item">
+                      <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-7-3-4" role="button" aria-expanded="false" aria-controls="docs-7-3-4"><span>DartPad</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+                      <ul id="docs-7-3-4" class="nav collapse">
+                        <li class="nav-item"><a class="nav-link" href="/tools/dartpad"><div><span>Overview</span></div></a></li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="/tools/dartpad/troubleshoot"><div><span>Troubleshooting DartPad</span></div></a>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-7-4" role="button" aria-expanded="false" aria-controls="docs-7-4">
+                    <span>Command-line tools</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-7-4" class="nav collapse">
+                    <li class="nav-item">
+                      <button class="nav-link collapsible" data-toggle="collapse" data-target="#docs-7-4-1" role="button" aria-expanded="true" aria-controls="docs-7-4-1"><span>Dart SDK</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+                      <ul id="docs-7-4-1" class="nav collapse show">
+                        <li class="nav-item"><a class="nav-link" href="/tools/sdk"><div><span>Overview</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-tool"><div><span>dart</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-analyze"><div><span>dart analyze</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-compile"><div><span>dart compile</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-create"><div><span>dart create</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-doc"><div><span>dart doc</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-fix"><div><span>dart fix</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-format"><div><span>dart format</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-info"><div><span>dart info</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/pub/cmd"><div><span>dart pub</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-run"><div><span>dart run</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dart-test"><div><span>dart test</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/dartaotruntime"><div><span>dartaotruntime</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/experiment-flags"><div><span>Experiment flags</span></div></a></li>
+                      </ul>
+                    </li>
+                    <li class="nav-item">
+                      <button class="nav-link collapsible" data-toggle="collapse" data-target="#docs-7-4-2" role="button" aria-expanded="true" aria-controls="docs-7-4-2">
+                        <span>Other command-line tools</span>
+                        <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                      </button>
+                      <ul id="docs-7-4-2" class="nav collapse show">
+                        <li class="nav-item"><a class="nav-link" href="/tools/build_runner"><div><span>build_runner</span></div></a></li>
+                        <li class="nav-item"><a class="nav-link" href="/tools/webdev"><div><span>webdev</span></div></a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-7-5" role="button" aria-expanded="false" aria-controls="docs-7-5">
+                    <span>Static analysis</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-7-5" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/tools/analysis"><div><span>Customizing static analysis</span></div></a></li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/tools/non-promotion-reasons"><div><span>Fixing type promotion failures</span></div></a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/linter-rules"><div><span>Linter rules</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/tools/diagnostics"><div><span>Diagnostic messages</span></div></a></li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-7-6" role="button" aria-expanded="false" aria-controls="docs-7-6">
+                    <span>Testing &amp; optimization</span>
+                    <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+                  </button>
+                  <ul id="docs-7-6" class="nav collapse">
+                    <li class="nav-item"><a class="nav-link" href="/tools/testing"><div><span>Testing</span></div></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/web/debugging"><div><span>Debugging web apps</span></div></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li aria-hidden="true"><div class="sidenav-divider"></div></li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-9" role="button" aria-expanded="false" aria-controls="docs-9">
+                <span>Stay up to date</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-9" class="nav collapse">
+                <li class="nav-item">
+                  <a class="nav-link" rel="noopener" href="https://blog.dart.dev" target="_blank">
+                    <div><span>Dart Blog</span><span class="material-symbols" aria-hidden="true">open_in_new</span></div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" rel="noopener" href="https://github.com/dart-lang/sdk/blob/main/CHANGELOG.md" target="_blank">
+                    <div><span>Dart SDK Changelog</span><span class="material-symbols" aria-hidden="true">open_in_new</span></div>
+                  </a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/resources/breaking-changes"><div><span>Breaking changes</span></div></a></li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/language/evolution"><div><span>Language evolution</span></div></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/resources/whats-new"><div><span>What's new in the docs</span></div></a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible collapsed" data-toggle="collapse" data-target="#docs-10" role="button" aria-expanded="false" aria-controls="docs-10"><span>Resources</span><span class="material-symbols expander" aria-hidden="true">expand_more</span></button>
+              <ul id="docs-10" class="nav collapse">
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/dart-cheatsheet"><div><span>Language cheatsheet</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/language/spec"><div><span>Language specification</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/dart-3-migration"><div><span>Dart 3 migration guide</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/coming-from/js-to-dart"><div><span>From JavaScript to Dart</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/resources/coming-from/swift-to-dart"><div><span>From Swift to Dart</span></div></a>
+                </li>
+                <div class="sidenav-divider"></div>
+                <li class="nav-item"><a class="nav-link" href="/resources/faq"><div><span>FAQ</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/resources/glossary"><div><span>Glossary</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/resources/books"><div><span>Books</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/resources/videos"><div><span>Videos</span></div></a></li>
+                <li class="nav-item"><a class="nav-link" href="/tutorials"><div><span>Tutorials</span></div></a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <button class="nav-link collapsible" data-toggle="collapse" data-target="#docs-11" role="button" aria-expanded="true" aria-controls="docs-11">
+                <span>Related sites</span>
+                <span class="material-symbols expander" aria-hidden="true">expand_more</span>
+              </button>
+              <ul id="docs-11" class="nav collapse show">
+                <li class="nav-item">
+                  <a class="nav-link" rel="noopener" href="https://api.dart.dev" target="_blank">
+                    <div><span>API reference</span><span class="material-symbols" aria-hidden="true">open_in_new</span></div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" rel="noopener" href="https://dartpad.dev" target="_blank">
+                    <div>
+                      <span>DartPad (online editor)</span>
+                      <span class="material-symbols" aria-hidden="true">open_in_new</span>
+                    </div>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" rel="noopener" href="https://flutter.dev" target="_blank"><div><span>Flutter</span><span class="material-symbols" aria-hidden="true">open_in_new</span></div></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" rel="noopener" href="https://pub.dev" target="_blank">
+                    <div><span>Package site</span><span class="material-symbols" aria-hidden="true">open_in_new</span></div>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <main id="page-content">
+          <div id="toc-top" class="site-toc dropdown">
+            <button class="dropdown-button" title="Toggle the table of contents dropdown" aria-expanded="false" aria-controls="toc-dropdown" aria-label="Toggle the table of contents dropdown">
+              <span class="toc-intro"><span class="material-symbols" translate="no">list</span><span aria-label="On this page">On this page</span></span>
+              <span class="toc-current"><span class="material-symbols" translate="no">chevron_right</span><span id="current-header">Dart and Flutter MCP server</span></span>
+            </button>
+            <div id="toc-dropdown" class="dropdown-content">
+              <a id="return-to-top" href="#site-content-title">
+                <span class="material-symbols" translate="no">vertical_align_top</span>
+                <span>Dart and Flutter MCP server</span>
+              </a>
+              <div class="dropdown-divider" aria-hidden="true" role="separator"></div>
+              <nav role="menu">
+                <ul class="styled-toc-list">
+                  <li><span class="sidenav-item"><a href="#overview">Overview</a></span></li>
+                  <li>
+                    <span class="sidenav-item"><a href="#set-up-your-mcp-client">Set up your MCP client</a></span>
+                    <ul>
+                      <li><span class="sidenav-item"><a href="#gemini-cli">Gemini CLI</a></span></li>
+                      <li><span class="sidenav-item"><a href="#firebase-studio">Firebase Studio</a></span></li>
+                      <li>
+                        <span class="sidenav-item"><a href="#gemini-code-assist-in-vs-code">Gemini Code Assist in VS Code</a></span>
+                      </li>
+                      <li>
+                        <span class="sidenav-item"><a href="#github-copilot-in-vs-code">GitHub Copilot in VS Code</a></span>
+                      </li>
+                      <li><span class="sidenav-item"><a href="#cursor">Cursor</a></span></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span class="sidenav-item"><a href="#use-your-mcp-client">Use your MCP client</a></span>
+                    <ul>
+                      <li>
+                        <span class="sidenav-item"><a href="#fix-a-runtime-layout-error-in-a-flutter-app">Fix a runtime layout error in a Flutter app</a></span>
+                      </li>
+                      <li>
+                        <span class="sidenav-item"><a href="#add-new-functionality-with-package-search">Add new functionality with package search</a></span>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="after-leading-content">
+            <aside id="side-menu">
+              <nav id="toc-side" class="site-toc">
+                <header><span class="material-symbols" translate="no">list</span><span>On this page</span></header>
+                <ul class="styled-toc-list">
+                  <li><span class="sidenav-item"><a href="#overview">Overview</a></span></li>
+                  <li>
+                    <span class="sidenav-item"><a href="#set-up-your-mcp-client">Set up your MCP client</a></span>
+                    <ul>
+                      <li><span class="sidenav-item"><a href="#gemini-cli">Gemini CLI</a></span></li>
+                      <li><span class="sidenav-item"><a href="#firebase-studio">Firebase Studio</a></span></li>
+                      <li>
+                        <span class="sidenav-item"><a href="#gemini-code-assist-in-vs-code">Gemini Code Assist in VS Code</a></span>
+                      </li>
+                      <li>
+                        <span class="sidenav-item"><a href="#github-copilot-in-vs-code">GitHub Copilot in VS Code</a></span>
+                      </li>
+                      <li><span class="sidenav-item"><a href="#cursor">Cursor</a></span></li>
+                    </ul>
+                  </li>
+                  <li>
+                    <span class="sidenav-item"><a href="#use-your-mcp-client">Use your MCP client</a></span>
+                    <ul>
+                      <li>
+                        <span class="sidenav-item"><a href="#fix-a-runtime-layout-error-in-a-flutter-app">Fix a runtime layout error in a Flutter app</a></span>
+                      </li>
+                      <li>
+                        <span class="sidenav-item"><a href="#add-new-functionality-with-package-search">Add new functionality with package search</a></span>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </nav>
+            </aside>
+            <article>
+              <div class="content">
+                <div id="site-content-title">
+                  <h1 id="document-title">Dart and Flutter MCP server</h1>
+                  <nav class="breadcrumbs" aria-label="breadcrumb">
+                    <ol class="breadcrumb-list" vocab="https://schema.org/" typeof="BreadcrumbList">
+                      <li class="breadcrumb-item" property="itemListElement" typeof="ListItem">
+                        <a property="item" typeof="WebPage" href="/tools"><span property="name">Tools</span></a>
+                        <meta property="position" content="0"/>
+                        <span class="material-symbols child-icon" aria-hidden="true">chevron_right</span>
+                      </li>
+                      <li class="breadcrumb-item active" property="itemListElement" typeof="ListItem" aria-current="page">
+                        <a property="item" typeof="WebPage" href="/tools/mcp-server"><span property="name">MCP server</span></a>
+                        <meta property="position" content="1"/>
+                      </li>
+                    </ol>
+                  </nav>
+                </div>
+                <section class="content">
+                  <p>This guide discusses the Dart and Flutter MCP server.</p>
+                  <div class="header-wrapper">
+                    <h2 id="overview">Overview</h2>
+                    <a class="heading-link" href="#overview" aria-label="Link to 'Overview' section">#</a>
+                  </div>
+                  <p>
+                    The 
+                    <a href="https://github.com/dart-lang/ai/blob/main/pkgs/dart_mcp_server">Dart and Flutter MCP server</a>
+                    
+                    exposes Dart (and Flutter) development tool actions to
+                    compatible AI-assistant clients. MCP (model context protocol)
+                    is a protocol that enables communication between development tools
+                    and AI assistants, allowing the assistants to understand the
+                    context of the code and perform actions on behalf of the developer.
+                  </p>
+                  <p>
+                    The Dart and Flutter MCP server can work with any MCP client that
+                    supports standard I/O (stdio) as the transport medium.
+                    To access all the features of the Dart and Flutter MCP server,
+                    an MCP client must support 
+                    <a href="https://modelcontextprotocol.io/docs/concepts/tools">Tools</a>
+                     and 
+                    <a href="https://modelcontextprotocol.io/docs/concepts/resources">Resources</a>.
+                    For the best development experience with the Dart and Flutter MCP server,
+                    an MCP client should also support 
+                    <a href="https://modelcontextprotocol.io/docs/concepts/roots">Roots</a>.
+                  </p>
+                  <p>
+                    If you are using a client that claims it
+                    supports roots but doesn't actually set them,
+                    pass 
+                    <code>--force-roots-fallback</code>
+                     to enable tools for managing the roots.
+                  </p>
+                  <p>
+                    The Dart and Flutter MCP server provides a growing list of tools that
+                    grant AI assistants deep insights into your project.
+                    Here is an overview of a few things it can do:
+                  </p>
+                  <ul>
+                    <li> Analyze and fix errors in your project's code.</li>
+                    <li>
+                       Resolve symbols to elements to ensure their existence and
+                      fetch documentation and signature information for them.
+                    </li>
+                    <li> Introspect and interact with your running application.</li>
+                    <li> Search the <a href="https://pub.dev">pub.dev site</a> for the best package for a use case.</li>
+                    <li> Manage package dependencies in your <code>pubspec.yaml</code> file.</li>
+                    <li> Run tests and analyze the results.</li>
+                    <li>
+                       Format code with the same formatter and config as
+                      
+                      <a href="/tools/dart-format"><code>dart format</code></a>
+                       and the Dart analysis server.
+                    </li>
+                  </ul>
+                  <aside class="alert alert-info">
+                    <div class="alert-header"><span class="material-symbols" aria-hidden="true">info</span><span>Experimental</span></div>
+                    <div class="alert-content">
+                      <p>
+                        This tool is still experimental and is likely to evolve quickly.
+                        The following setup and usage instructions
+                        require Dart 3.9 or later.
+                      </p>
+                    </div>
+                  </aside>
+                  <div class="header-wrapper">
+                    <h2 id="set-up-your-mcp-client">Set up your MCP client</h2>
+                    <a class="heading-link" href="#set-up-your-mcp-client" aria-label="Link to 'Set up your MCP client' section">#</a>
+                  </div>
+                  <p>
+                    The server is run with the 
+                    <code>dart mcp-server</code>
+                     command, which will
+                    have to be configured in your preferred client.
+                  </p>
+                  <p>
+                    This section provides instructions for setting up the
+                    Dart and Flutter MCP server with popular tools like Firebase Studio,
+                    Gemini CLI, Gemini Code Assist, Cursor, and GitHub Copilot.
+                  </p>
+                  <div class="header-wrapper">
+                    <h3 id="gemini-cli">Gemini CLI</h3>
+                    <a class="heading-link" href="#gemini-cli" aria-label="Link to 'Gemini CLI' section">#</a>
+                  </div>
+                  <p>
+                    To configure the 
+                    <a href="https://github.com/google-gemini/gemini-cli">Gemini CLI</a>
+                     to use the Dart and Flutter MCP server,
+                    add a Dart entry to the 
+                    <code>mcpServers</code>
+                     section of the Gemini config.
+                  </p>
+                  <ul>
+                    <li>
+                       To enable server for all projects on your device,
+                      edit the 
+                      <code>~/.gemini/settings.json</code>
+                       file in your home directory.
+                    </li>
+                    <li>
+                       To enable the server for a specific project,
+                      edit the 
+                      <code>.gemini/settings.json</code>
+                       file in the project's root directory.
+                    </li>
+                  </ul>
+                  <div class="code-block-wrapper language-json">
+                    <div class="code-block-header">.gemini/settings.json</div>
+                    <div class="code-block-body">
+                      <span class="code-block-language" title="Language json">json</span>
+                      <pre class="opal" tabindex="0"><code><span class="line"><span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>  </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">mcpServers</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>    </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">command</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">,</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">args</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">[</span></span>
+</span><span class="line"><span><span>        </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">mcp-server</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">]</span></span>
+</span><span class="line"><span><span>    </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span><span class="line"><span><span>  </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span><span class="line"><span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span></code></pre>
+                    </div>
+                  </div>
+                  <p>
+                    For more information, check out the official Gemini CLI
+                    documentation for 
+                    <a href="https://github.com/google-gemini/gemini-cli/blob/main/docs/tools/mcp-server.md#how-to-set-up-your-mcp-server">setting up MCP servers</a>.
+                  </p>
+                  <div class="header-wrapper">
+                    <h3 id="firebase-studio">Firebase Studio</h3>
+                    <a class="heading-link" href="#firebase-studio" aria-label="Link to 'Firebase Studio' section">#</a>
+                  </div>
+                  <p>
+                    If you wish to use the Dart and Flutter MCP Server in 
+                    <a href="https://firebase.studio/">Firebase Studio</a>,
+                    an agentic cloud-based development environment that helps
+                    you build and ship production-quality full-stack AI apps,
+                    follow these steps:
+                  </p>
+                  <ol>
+                    <li>
+                      <p>
+                         In your Firebase Studio app project, create a
+                        
+                        <code>.idx/mcp.json</code>
+                         file in your project if it
+                        doesn't exist already and add the following
+                        Dart and Flutter MCP Server configuration to the file:
+                      </p>
+                      <div class="code-block-wrapper language-json">
+                        <div class="code-block-header">.idx/mcp.json</div>
+                        <div class="code-block-body">
+                          <span class="code-block-language" title="Language json">json</span>
+                          <pre class="opal" tabindex="0"><code><span class="line"><span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>  </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">mcpServers</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>    </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">command</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">,</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">args</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">[</span></span>
+</span><span class="line"><span><span>        </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">mcp-server</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">]</span></span>
+</span><span class="line"><span><span>    </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span><span class="line"><span><span>  </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span><span class="line"><span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span></code></pre>
+                        </div>
+                      </div>
+                    </li>
+                    <li><p> Ensure your environment is running Dart SDK 3.9/Flutter 3.35 or later.</p></li>
+                    <li>
+                      <p> Rebuild your workspace to complete the setup.</p>
+                      <ul>
+                        <li>  Open the Command Palette (<strong>Shift+Ctrl+P</strong>).</li>
+                        <li>  Enter <strong>Firebase Studio: Rebuild Environment</strong>.</li>
+                      </ul>
+                    </li>
+                  </ol>
+                  <p>
+                    For more information about MCP server configuration in
+                    Firebase Studio, see 
+                    <a href="https://firebase.google.com/docs/studio/customize-workspace">Customize your Firebase Studio workspace</a>.
+                  </p>
+                  <div class="header-wrapper">
+                    <h3 id="gemini-code-assist-in-vs-code">Gemini Code Assist in VS Code</h3>
+                    <a class="heading-link" href="#gemini-code-assist-in-vs-code" aria-label="Link to 'Gemini Code Assist in VS Code' section">#</a>
+                  </div>
+                  <p>
+                    <a href="https://codeassist.google/">Gemini Code Assist</a>'s 
+                    <a href="https://developers.google.com/gemini-code-assist/docs/use-agentic-chat-pair-programmer">Agent mode</a>
+                     integrates the
+                    Gemini CLI to provide a powerful AI agent directly in your IDE.
+                    If you haven't set up Gemini Code Assist or its agent mode yet,
+                    follow its 
+                    <a href="https://developers.google.com/gemini-code-assist/docs/use-agentic-chat-pair-programmer#before-you-begin">Before you begin instructions</a>
+                     to get started.
+                  </p>
+                  <p>
+                    To configure Gemini Code Assist to use the Dart and Flutter MCP server,
+                    follow the instructions to 
+                    <a href="#gemini-cli">configure the Gemini CLI</a>.
+                  </p>
+                  <p>
+                    You can verify the MCP server has been configured
+                    properly by typing 
+                    <code>/mcp</code>
+                     in the chat window in Agent mode.
+                  </p>
+                  <p>
+                    For more information see the official Gemini Code Assist
+                    documentation for 
+                    <a href="https://developers.google.com/gemini-code-assist/docs/use-agentic-chat-pair-programmer#before-you-begin">using agent mode</a>.
+                  </p>
+                  <div class="header-wrapper">
+                    <h3 id="github-copilot-in-vs-code">GitHub Copilot in VS Code</h3>
+                    <a class="heading-link" href="#github-copilot-in-vs-code" aria-label="Link to 'GitHub Copilot in VS Code' section">#</a>
+                  </div>
+                  <aside class="alert alert-info">
+                    <div class="alert-header"><span class="material-symbols" aria-hidden="true">info</span><span>Note</span></div>
+                    <div class="alert-content">
+                      <p>
+                        Support for the Dart and Flutter MCP server in VS Code requires
+                        v3.116 or later of the 
+                        <a href="https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code">Dart Code extension</a>.
+                      </p>
+                    </div>
+                  </aside>
+                  <p>
+                    By default, the Dart extension uses the
+                    
+                    <a href="https://code.visualstudio.com/api/extension-guides/mcp">VS Code MCP API</a>
+                     to register the Dart and Flutter MCP server, as well
+                    as a tool to provide the URI for the active Dart Tooling Daemon.
+                  </p>
+                  <p>
+                    Explicitly enable or disable the Dart and Flutter MCP server by
+                    configuring the 
+                    <code>dart.mcpServer</code>
+                     setting in your VS Code settings.
+                  </p>
+                  <p>To change this globally, update your user settings:</p>
+                  <ol>
+                    <li>
+                      <p>
+                         In VS Code, click 
+                        <strong>View &gt; Command Palette</strong>
+                         and then
+                        search for 
+                        <strong>Preferences: Open User Settings (JSON)</strong>.
+                      </p>
+                    </li>
+                    <li>
+                      <p> Add the following setting:</p>
+                      <div class="code-block-wrapper language-json">
+                        <div class="code-block-body">
+                          <span class="code-block-language" title="Language json">json</span>
+                          <pre class="opal" tabindex="0"><code><span class="line"><span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart.mcpServer</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span>:</span><span> </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">true</span></span>
+</span></code></pre>
+                        </div>
+                      </div>
+                    </li>
+                  </ol>
+                  <p>
+                    If you'd like this setting to apply only to a specific workspace,
+                    add the entry to your workspace settings:
+                  </p>
+                  <ol>
+                    <li>
+                      <p>
+                         In VS Code, click 
+                        <strong>View &gt; Command Palette</strong>
+                         and then
+                        search for 
+                        <strong>Preferences: Open Workspace Settings (JSON)</strong>.
+                      </p>
+                    </li>
+                    <li>
+                      <p> Add the following setting:</p>
+                      <div class="code-block-wrapper language-json">
+                        <div class="code-block-body">
+                          <span class="code-block-language" title="Language json">json</span>
+                          <pre class="opal" tabindex="0"><code><span class="line"><span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart.mcpServer</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span>:</span><span> </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">true</span></span>
+</span></code></pre>
+                        </div>
+                      </div>
+                    </li>
+                  </ol>
+                  <p>
+                    For more information, see the official VS Code
+                    documentation for 
+                    <a href="https://code.visualstudio.com/docs/copilot/chat/mcp-servers#_enable-mcp-support-in-vs-code">enabling MCP support</a>.
+                  </p>
+                  <div class="header-wrapper">
+                    <h3 id="cursor">Cursor</h3>
+                    <a class="heading-link" href="#cursor" aria-label="Link to 'Cursor' section">#</a>
+                  </div>
+                  <p>
+                    The easiest way to configure the Dart and Flutter MCP server with
+                    Cursor is by clicking the 
+                    <strong>Add to Cursor</strong>
+                     button:
+                  </p>
+                  <p>
+                    <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=dart&amp;config=eyJ0eXBlIjoic3RkaW8iLCJjb21tYW5kIjoiZGFydCBtY3Atc2VydmVyIC0tZXhwZXJpbWVudGFsLW1jcC1zZXJ2ZXIgLS1mb3JjZS1yb290cy1mYWxsYmFjayJ9" class="light-mode-visible"><img src="https://cursor.com/deeplink/mcp-install-dark.svg" alt="Add to Cursor"/></a>
+                    
+                    
+                    <a href="cursor://anysphere.cursor-deeplink/mcp/install?name=dart&amp;config=eyJ0eXBlIjoic3RkaW8iLCJjb21tYW5kIjoiZGFydCBtY3Atc2VydmVyIC0tZXhwZXJpbWVudGFsLW1jcC1zZXJ2ZXIgLS1mb3JjZS1yb290cy1mYWxsYmFjayJ9" class="dark-mode-visible"><img src="https://cursor.com/deeplink/mcp-install-light.svg" alt="Add to Cursor"/></a>
+                  </p>
+                  <p>Alternatively, you can configure the server manually:</p>
+                  <ol>
+                    <li>
+                      <p> Go to <strong>Cursor &gt; Settings &gt; Cursor Settings &gt; Tools &amp; Integrations</strong>.</p>
+                    </li>
+                    <li>
+                      <p>
+                         Click 
+                        <strong>Add Custom MCP</strong>
+                         or 
+                        <strong>New MCP Server</strong>
+                        
+                        depending on whether you already have other MCP servers configured.
+                      </p>
+                    </li>
+                    <li>
+                      <p>
+                         Edit the 
+                        <code>.cursor/mcp.json</code>
+                         file in your local project
+                        (configuration will only apply to this project) or
+                        edit the global 
+                        <code>~/.cursor/mcp.json</code>
+                         file in your home directory
+                        (configuration will apply for all projects) to
+                        configure the Dart and Flutter MCP server:
+                      </p>
+                      <div class="code-block-wrapper language-json">
+                        <div class="code-block-header">.cursor/mcp.json</div>
+                        <div class="code-block-body">
+                          <span class="code-block-language" title="Language json">json</span>
+                          <pre class="opal" tabindex="0"><code><span class="line"><span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>  </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">mcpServers</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>    </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">{</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">command</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">dart</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">,</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">args</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">:</span><span> </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">[</span></span>
+</span><span class="line"><span><span>        </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">mcp-server</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">,</span></span>
+</span><span class="line"><span><span>        </span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">--force-roots-fallback</span><span style="color: rgba(12, 112, 100, 1.0); --opal-dark-color: rgba(28, 218, 197, 1.0);">"</span></span>
+</span><span class="line"><span><span>      </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">]</span></span>
+</span><span class="line"><span><span>    </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span><span class="line"><span><span>  </span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span><span class="line"><span><span style="color: rgba(25, 28, 34, 1.0); --opal-dark-color: rgba(220, 220, 220, 1.0);">}</span></span>
+</span></code></pre>
+                        </div>
+                      </div>
+                    </li>
+                  </ol>
+                  <p>
+                    For more information, see the official Cursor
+                    documentation for 
+                    <a href="https://docs.cursor.com/context/model-context-protocol#installing-mcp-servers">installing MCP servers</a>.
+                  </p>
+                  <div class="header-wrapper">
+                    <h2 id="use-your-mcp-client">Use your MCP client</h2>
+                    <a class="heading-link" href="#use-your-mcp-client" aria-label="Link to 'Use your MCP client' section">#</a>
+                  </div>
+                  <p>
+                    Once you've set up the Dart and Flutter MCP server with a client,
+                    the Dart and Flutter MCP server enables the client to not only reason
+                    about your project's context but also to take action with tools.
+                  </p>
+                  <p>
+                    The 
+                    <a href="https://developers.google.com/machine-learning/resources/intro-llms">Large Language Model (LLM)</a>
+                     decides which tools to use and when,
+                    so you can focus on describing your goal in natural language.
+                    Let's see this in action with a couple of examples using
+                    GitHub Copilot's Agent mode in VS Code.
+                  </p>
+                  <div class="header-wrapper">
+                    <h3 id="fix-a-runtime-layout-error-in-a-flutter-app">Fix a runtime layout error in a Flutter app</h3>
+                    <a class="heading-link" href="#fix-a-runtime-layout-error-in-a-flutter-app" aria-label="Link to 'Fix a runtime layout error in a Flutter app' section">#</a>
+                  </div>
+                  <p>
+                    We've all been there: you build a beautiful UI, run the app,
+                    and are greeted by the infamous yellow-and-black stripes of
+                    a RenderFlex overflow error.
+                    Instead of manually debugging the widget tree, you can now
+                    ask your AI assistant for help with a prompt similar to the following:
+                  </p>
+                  <blockquote>
+                    <p>
+                      Check for and fix static and runtime analysis issues.
+                      Check for and fix any layout issues.
+                    </p>
+                  </blockquote>
+                  <p>Behind the scenes, the AI agent uses the Dart and Flutter MCP server's tools to:</p>
+                  <ul>
+                    <li>
+                       See the error: It uses a tool to get the current runtime errors
+                      from the running application.
+                    </li>
+                    <li>
+                       Inspect the UI: It accesses the Flutter widget tree to understand
+                      the layout that is causing the overflow.
+                    </li>
+                    <li>
+                       Apply a fix: Armed with this context, it applies a fix and
+                      checks once more for any remaining errors.
+                    </li>
+                  </ul>
+                  <p>You can then keep or undo the code changes.</p>
+                  <div class="header-wrapper">
+                    <h3 id="add-new-functionality-with-package-search">Add new functionality with package search</h3>
+                    <a class="heading-link" href="#add-new-functionality-with-package-search" aria-label="Link to 'Add new functionality with package search' section">#</a>
+                  </div>
+                  <p>
+                    Imagine you need to add a chart to your app.
+                    Which package should you use? How do you add it and write the boilerplate?
+                    The Dart and Flutter MCP server can streamline this entire process with
+                    a prompt similar to the following:
+                  </p>
+                  <blockquote>
+                    <p>
+                      Find a suitable package to add a line chart that
+                      maps the number of button presses over time.
+                    </p>
+                  </blockquote>
+                  <p>The AI agent now acts as a true assistant:</p>
+                  <ul>
+                    <li>
+                       Find the right tool: It uses the 
+                      <code>pub_dev_search</code>
+                       tool to
+                      find popular and highly-rated charting libraries.
+                    </li>
+                    <li>
+                       Manage dependencies: After you confirm its choice,
+                      such as 
+                      <a href="https://pub.dev/packages/fl_chart"><code>package:fl_chart</code></a>
+                      ,
+                      it uses a tool to add the package as a dependency.
+                    </li>
+                    <li>
+                       Generate the code: It generates the new widget code,
+                      complete with boilerplate for a line chart that it places in the UI.
+                      It even self-corrects syntax errors introduced during the process.
+                      You can customize further from there.
+                    </li>
+                  </ul>
+                  <p>
+                    What used to be a multi-step process of research,
+                    reading documentation, editing 
+                    <code>pubspec.yaml</code>, and
+                    writing the appropriate code in your app,
+                    is now a single request.
+                  </p>
+                </section>
+                <div id="trailing-content" data-nosnippet="true">
+                  <div id="page-feedback">
+                    <div class="feedback initial-feedback">
+                      <div>Was this page's content helpful?</div>
+                      <div class="feedback-buttons">
+                        <button id="feedback-up-button" class="icon-button" aria-label="Yes, this page was helpful" title="Helpful"><span class="material-symbols" aria-hidden="true">thumb_up</span></button>
+                        <button id="feedback-down-button" class="icon-button" aria-label="No, this page was not helpful or had an issue" title="Not helpful or had issue"><span class="material-symbols" aria-hidden="true">thumb_down</span></button>
+                      </div>
+                    </div>
+                    <div class="feedback good-feedback">
+                      <div>Thank you for your feedback!</div>
+                      <a class="text-button" aria-label="Provide feedback" target="_blank" rel="noopener" href="https://github.com/dart-lang/site-www/issues/new?template=1_page_issue.yml&amp;page-url=https://dart.dev/tools/mcp-server&amp;page-source=https://github.com/dart-lang/site-www/blob/main/src/content/tools/mcp-server.md"><span class="material-symbols" aria-hidden="true">feedback</span><span>Provide details</span></a>
+                    </div>
+                    <div class="feedback bad-feedback">
+                      <div>Thank you for your feedback!Please let us know what we can do to improve.</div>
+                      <a class="text-button" aria-label="Provide feedback or report an issue" target="_blank" rel="noopener" href="https://github.com/dart-lang/site-www/issues/new?template=1_page_issue.yml&amp;page-url=https://dart.dev/tools/mcp-server&amp;page-source=https://github.com/dart-lang/site-www/blob/main/src/content/tools/mcp-server.md"><span class="material-symbols" aria-hidden="true">bug_report</span><span>Provide details</span></a>
+                    </div>
+                  </div>
+                  <p id="page-github-links">
+                    <span>Unless stated otherwise, the documentation on this site reflects Dart 3.9.2. Page last updated on 2025-8-18. </span>
+                    <a target="_blank" rel="noopener" href="https://github.com/dart-lang/site-www/blob/main/src/content/tools/mcp-server.md">View source</a>
+                    <span> or </span>
+                    <a title="Report an issue with this page" target="_blank" rel="noopener" href="https://github.com/dart-lang/site-www/issues/new?template=1_page_issue.yml&amp;page-url=https://dart.dev/tools/mcp-server&amp;page-source=https://github.com/dart-lang/site-www/blob/main/src/content/tools/mcp-server.md">report an issue</a>.
+                  </p>
+                </div>
+              </div>
+            </article>
+          </div>
+        </main>
+      </div>
+      <footer id="page-footer" data-nosnippet="true">
+        <div class="footer-section footer-main">
+          <a class="brand" title="Dart" href="/"><img alt="Dart" width="164" src="/assets/img/logo/logo-white-text.svg"/></a>
+          <div class="footer-social-links">
+            <a rel="noopener" title="Dart's Medium publication" href="https://blog.dart.dev" target="_blank"><svg><use href="/assets/img/social/medium.svg#medium"></use></svg></a>
+            <a rel="noopener" title="Dart's GitHub organization" href="https://github.com/dart-lang" target="_blank"><svg><use href="/assets/img/social/github.svg#github"></use></svg></a>
+            <a rel="noopener" title="Dart's Bluesky (Twitter) profile" href="https://bsky.app/profile/dart.dev" target="_blank"><svg><use href="/assets/img/social/bluesky.svg#bluesky"></use></svg></a>
+            <a rel="noopener" title="Dart's X (Twitter) profile" href="https://twitter.com/dart_lang" target="_blank"><svg><use href="/assets/img/social/x.svg#x"></use></svg></a>
+          </div>
+        </div>
+        <div class="footer-section footer-tray">
+          <div class="footer-licenses">
+            Except as otherwise noted, this site is licensed under a 
+            <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>
+            , and code samples are licensed under the 
+            <a href="https://opensource.org/licenses/BSD-3-Clause">3-Clause BSD License</a>
+            .
+          </div>
+          <div class="footer-utility-links">
+            <ul>
+              <li><a title="Terms of use" href="/terms">Terms</a></li>
+              <li>
+                <a rel="noopener" title="Privacy policy" href="https://policies.google.com/privacy" target="_blank">Privacy</a>
+              </li>
+              <li><a title="Security philosophy and practices" href="/security">Security</a></li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
+
